@@ -86,6 +86,10 @@
         </el-button>
       </div>
 
+      <div>
+        {{logtext}}
+      </div>
+
 
     </el-aside>
 
@@ -105,7 +109,8 @@
       </el-header>
       <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #F5F5F5">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
-          <Client v-for="(client,index) in clients" :id=index :power=client.power :readonly="isTraining"></Client>
+          <Client v-for="(client,index) in clients" :key="index" :id=index :power=client.power
+                  :readonly="isTraining" :result="result"></Client>
         </div>
       </el-main>
 
@@ -116,6 +121,7 @@
 
 <script>
   import Client from "../components/Client";
+  import {run} from '../static/js/script.js'
 
   export default {
     name: "home",
@@ -195,7 +201,11 @@
 
         btnMsg: 'start',
 
-        isTraining: false
+        isTraining: false,
+
+        logtext: '',
+
+        result: null
       }
     },
     created() {
@@ -204,6 +214,9 @@
     watch: {
       clientNum: function () {
         this.initClient()
+      },
+      result: function () {
+        this.logtext = 'build finished, start training...'
       }
     },
     methods: {
@@ -213,7 +226,7 @@
       setprocess(step) {
         this.activestep = step
       },
-      startTrain() {
+      async startTrain() {
         if (this.modelvalue === '') {
           this.$message.error('Please select a model.');
           return
@@ -227,6 +240,8 @@
         this.setprocess(2)
         this.btnMsg = 'running'
         this.isTraining = true
+        this.logtext = 'building...'
+        this.result = await run()
       }
     }
   }
