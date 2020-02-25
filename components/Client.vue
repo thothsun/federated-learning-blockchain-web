@@ -1,9 +1,14 @@
 <template>
   <el-card shadow="always" body-style="padding:20px"
-           style="height: 400px;width: 250px;margin: 20px;display: inline-block">
+           style="height: 300px;width: 250px;margin: 20px;display: inline-block"
+           v-loading="this.state==='mining...'" element-loading-text="mining...">
 
-    <div style="text-align: center">
-      <b><i class="el-icon-monitor"></i>&nbsp;&nbsp;&nbsp;&nbsp;client {{id+1}}</b>
+    <div style="display: flex;justify-content:space-around;align-items: center;font-weight: 600">
+      <i class="el-icon-monitor"></i>
+
+      <span>client {{id+1}}</span>
+
+      <span style="color: orange">{{winner}}</span>
     </div>
 
     <div style="margin-top: 20px;display: flex;justify-content: space-between;align-items: center">
@@ -22,9 +27,8 @@
                        :disabled="readonly"></el-input-number>
     </div>
 
-
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>accu</span>
+      <span>accuracy</span>
       {{accu}}
     </div>
 
@@ -33,9 +37,16 @@
       {{loss}}
     </div>
 
-    <!--    <div style="margin-top: 20px;text-align: center">-->
-    <!--      <el-progress type="circle" :percentage=percentage :status=status :width=80></el-progress>-->
-    <!--    </div>-->
+    <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
+      <span>block height</span>
+      {{blockheight}}
+    </div>
+
+    <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
+      <span>reward</span>
+      {{myreward}}
+    </div>
+
 
   </el-card>
 </template>
@@ -48,7 +59,9 @@
       state: '',
       power: 0,
       readonly: false,
-      result: null
+      result: null,
+      reward: 0,
+      clientnum: 0
     },
     data() {
       return {
@@ -57,8 +70,11 @@
         percentage: 0,
         status: null,
         samples: 8000,
-        loss: 'none',
-        accu: 'none'
+        loss: '--',
+        accu: '--',
+        blockheight: 1023,
+        winner: ' ',
+        myreward: '--'
       }
     },
     methods: {},
@@ -67,23 +83,25 @@
         let flag = 4 + this.rate
         this.loss = (this.result[0][flag] - this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
         this.accu = (this.result[1][flag] + this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
+      },
+      state: function (val) {
+        if (val === 'finish') {
+          if (this.rate === 5) {
+            this.blockheight = 1024
+            this.winner = 'WINNER'
+          }
+          if (this.rate === 5) {
+            this.myreward = (this.reward * 0.7 / this.clientnum * this.accu + this.reward * 0.2).toFixed(3)
+          } else {
+            this.myreward = (this.reward * 0.7 / this.clientnum * this.accu).toFixed(3)
+          }
+          setTimeout(() => {
+            this.blockheight = 1024
+          }, 5000)
+        }
 
+      },
 
-        // let time = 1000 - 100 * this.rate
-        // let interval = setInterval(() => {
-        //   this.percentage += 1
-        //   if (this.percentage === 100) {
-        //     clearInterval(interval)
-        //     this.status = 'success'
-        //     let flag = 4 + this.rate
-        //     //todo 加上随机数
-        //     this.loss = (this.result[0][flag] + Math.random() * 0.001).toFixed(4)
-        //     this.accu = (this.result[1][flag] + Math.random() * 0.001).toFixed(4)
-        //
-        //     //  todo set activitystep = 3
-        //   }
-        // }, time)
-      }
     }
   }
 </script>

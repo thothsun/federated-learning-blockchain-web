@@ -3,7 +3,7 @@
 
 
     <el-aside style="padding: 20px 30px 0 0">
-      <h3>1.Configure Clients</h3>
+      <h3>Configure Clients</h3>
 
       <div class="menu">
         client number
@@ -37,7 +37,7 @@
 
       <el-divider></el-divider>
 
-      <h3>2.Post a Task</h3>
+      <h3>Post a Task</h3>
 
       <div class="menu">
         model
@@ -63,22 +63,21 @@
 
       <div class="menu">
         reward
-        <el-input v-model="reward"
-                  placeholder="reward for training"
-                  clearable
-                  size="mini"
-                  maxlength="8"
-                  style="width: 150px"
-                  @focus="setprocess(1)"
-                  :disabled="isTraining">
-        </el-input>
+        <el-input-number v-model="reward"
+                         :min="100"
+                         :max="10000"
+                         :step="100"
+                         size="mini"
+                         @focus="setprocess(1)"
+                         :disabled="isTraining">
+        </el-input-number>
       </div>
 
       <div class="menu">
         <span>train time</span>
-        <span>
+        <span style="color: gray;">
           <el-input-number v-model="traintime"
-                           :min="20"
+                           :min="10"
                            :max="60"
                            :step="5"
                            size="mini"
@@ -92,13 +91,13 @@
 
       <el-divider></el-divider>
 
-      <div>train progress</div>
+      <span>Train Progress</span>
 
       <div style="text-align: center;margin-top: 10px">
         <el-progress :percentage="currentpercentage" :status="currentstatus"></el-progress>
       </div>
 
-      <div style="text-align: center;padding: 10px;margin-top: 20px">
+      <div style="text-align: center;margin-top: 12px">
         <el-button type="success"
                    v-text="btnMsg"
                    @click="startTrain()"
@@ -107,6 +106,36 @@
         </el-button>
       </div>
 
+      <el-divider></el-divider>
+
+      <h3>Blockchain Info</h3>
+
+      <div class="menu">
+        <span>block height</span>
+        <span>{{this.blockheight}}</span>
+      </div>
+
+      <div class="menu">
+        <span>node number</span>
+        <span>{{this.clientNum}}</span>
+      </div>
+
+      <!--      <div class="menu">-->
+      <!--        <span>whole power</span>-->
+      <!--        <span>40</span>-->
+      <!--      </div>-->
+
+      <div class="menu">
+        <span>update time</span>
+        <span>{{updatetime}}</span>
+      </div>
+
+      <div class="menu">
+        <span>current reward</span>
+        <span>{{this.reward*0.2.toFixed(1)}}</span>
+      </div>
+
+      <el-divider></el-divider>
 
     </el-aside>
 
@@ -126,7 +155,7 @@
       <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #F5F5F5">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
           <Client v-for="(client,index) in clients" :key="index" :id=index :state="state" :power=client.power
-                  :readonly="isTraining" :result="result"></Client>
+                  :readonly="isTraining" :result="result" :reward="reward" :clientnum="clientNum"></Client>
         </div>
       </el-main>
 
@@ -213,7 +242,7 @@
         ],
         datasetvalue: '',
 
-        reward: 100,
+        reward: 1000,
 
         traintime: 30,
 
@@ -227,11 +256,25 @@
 
         currentstatus: null,
 
-        result: null
+        result: null,
+
+        updatetime: '',
+
+        blockheight: 1023
       }
     },
     created() {
       this.initClient()
+
+      var time = new Date();
+      var y = time.getFullYear();
+      var m = time.getMonth() + 1;
+      var d = time.getDate();
+      var h = time.getHours();
+      var mm = time.getMinutes();
+      var s = time.getSeconds();
+
+      this.updatetime = this.getcurrenttime()
     },
     watch: {
       clientNum: function () {
@@ -241,6 +284,22 @@
       }
     },
     methods: {
+      add0(m) {
+        return m < 10 ? '0' + m : m
+      },
+
+      getcurrenttime() {
+        var time = new Date();
+        var y = time.getFullYear();
+        var m = time.getMonth() + 1;
+        var d = time.getDate();
+        var h = time.getHours();
+        var mm = time.getMinutes();
+        var s = time.getSeconds();
+
+        return y + '-' + this.add0(m) + '-' + this.add0(d) + ' ' + this.add0(h) + ':' + this.add0(mm) + ':' + this.add0(s)
+      },
+
       initClient() {
         this.clients = new Array(this.clientNum).fill({power: 4})
       },
@@ -270,9 +329,27 @@
             this.currentstatus = 'success'
             this.state = 'mining...'
             this.result = run()
+            this.$message({
+              message: 'train finished!', type: 'success'
+            });
+            this.startMining()
           }
         }, this.traintime * 1000 / 100)
 
+      },
+
+      startMining() {
+        setTimeout(() => {
+          this.$message({
+            message: 'mine finished!', type: 'success'
+          });
+          this.state = 'finish'
+          this.setprocess(3)
+          setTimeout(()=>{
+            this.blockheight = 1024
+            this.updatetime = this.getcurrenttime()
+          },5000)
+        }, 10000)
       }
     }
   }
@@ -280,7 +357,7 @@
 
 <style scoped>
   .menu {
-    margin-top: 20px;
+    margin-top: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center
