@@ -1,8 +1,8 @@
 <template>
-  <el-container style="height: 100vh;padding:3% 3% 0 3%">
+  <el-container style="height: 100vh;padding:1% 3% 0 3%">
 
 
-    <el-aside style="padding: 30px 30px 0 0">
+    <el-aside style="padding: 20px 30px 0 0">
       <h3>1.Configure Clients</h3>
 
       <div class="menu">
@@ -16,6 +16,23 @@
           @change="setprocess(0)"
           :disabled="isTraining"
         ></el-input-number>
+      </div>
+
+      <div class="menu">
+        dataset
+        <el-select v-model="datasetvalue"
+                   placeholder="select a dataset"
+                   size="mini"
+                   @change="setprocess(0)"
+                   :disabled="isTraining">
+          <el-option
+            v-for="item in datasetoptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+            :disabled="item.disabled">
+          </el-option>
+        </el-select>
       </div>
 
       <el-divider></el-divider>
@@ -45,23 +62,6 @@
       </div>
 
       <div class="menu">
-        dataset
-        <el-select v-model="datasetvalue"
-                   placeholder="select a dataset"
-                   size="mini"
-                   @change="setprocess(1)"
-                   :disabled="isTraining">
-          <el-option
-            v-for="item in datasetoptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-            :disabled="item.disabled">
-          </el-option>
-        </el-select>
-      </div>
-
-      <div class="menu">
         reward
         <el-input v-model="reward"
                   placeholder="reward for training"
@@ -74,34 +74,50 @@
         </el-input>
       </div>
 
+      <div class="menu">
+        <span>train time</span>
+        <span>
+          <el-input-number v-model="traintime"
+                           :min="20"
+                           :max="60"
+                           :step="5"
+                           size="mini"
+                           @focus="setprocess(1)"
+                           :disabled="isTraining">
+          </el-input-number>
+        (s)
+        </span>
+      </div>
+
+
       <el-divider></el-divider>
 
-      <h3 class="menu">3.Train Model <i class="el-icon-loading" v-show="isTraining"></i></h3>
+      <div>train progress</div>
 
-      <div style="text-align: center;padding: 20px">
+      <div style="text-align: center;margin-top: 10px">
+        <el-progress :percentage="currentpercentage" :status="currentstatus"></el-progress>
+      </div>
+
+      <div style="text-align: center;padding: 10px;margin-top: 20px">
         <el-button type="success"
                    v-text="btnMsg"
                    @click="startTrain()"
+                   size="mini"
                    :disabled="isTraining">
         </el-button>
-      </div>
-
-      <div>
-        {{logtext}}
       </div>
 
 
     </el-aside>
 
-    <el-container style="padding: 30px 50px">
+    <el-container style="padding: 20px 50px">
       <el-header height="130px">
         <h3>Process</h3>
         <div>
           <el-steps :active=activestep finish-status="success" align-center>
             <el-step title="Configure Clients" description=""></el-step>
             <el-step title="Post a Task" description=""></el-step>
-            <el-step title="Training" description=""></el-step>
-            <el-step title="Computing Reward" description=""></el-step>
+            <el-step title="Running" description=""></el-step>
             <el-step title="Finish" description="" icon="el-icon-finished"></el-step>
           </el-steps>
         </div>
@@ -109,7 +125,7 @@
       </el-header>
       <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #F5F5F5">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
-          <Client v-for="(client,index) in clients" :key="index" :id=index :power=client.power
+          <Client v-for="(client,index) in clients" :key="index" :id=index :state="state" :power=client.power
                   :readonly="isTraining" :result="result"></Client>
         </div>
       </el-main>
@@ -199,11 +215,17 @@
 
         reward: 100,
 
-        btnMsg: 'start',
+        traintime: 30,
+
+        btnMsg: 'Run',
+
+        state: 'free',
 
         isTraining: false,
 
-        logtext: '',
+        currentpercentage: 0,
+
+        currentstatus: null,
 
         result: null
       }
@@ -216,7 +238,6 @@
         this.initClient()
       },
       result: function () {
-        this.logtext = 'build finished, start training...'
       }
     },
     methods: {
@@ -226,7 +247,7 @@
       setprocess(step) {
         this.activestep = step
       },
-      async startTrain() {
+      startTrain() {
         if (this.modelvalue === '') {
           this.$message.error('Please select a model.');
           return
@@ -238,10 +259,20 @@
         }
 
         this.setprocess(2)
-        this.btnMsg = 'running'
+        this.btnMsg = 'Running'
+        this.state = 'training...'
         this.isTraining = true
-        this.logtext = 'building...'
-        this.result = await run()
+
+        let interval = setInterval(() => {
+          this.currentpercentage += 1
+          if (this.currentpercentage === 100) {
+            clearInterval(interval)
+            this.currentstatus = 'success'
+            this.state = 'mining...'
+            this.result = run()
+          }
+        }, this.traintime * 1000 / 100)
+
       }
     }
   }

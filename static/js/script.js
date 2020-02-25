@@ -77,19 +77,50 @@ async function train(model, data) {
   });
 }
 
-async function run() {
-  console.log('start run...')
-  const data = new MnistData();
-  await data.load();
+// async function run() {
+//   console.log('start run...')
+//   const data = new MnistData();
+//   await data.load();
+//
+//   const model = getModel();
+//   let history = await train(model, data);
+//   // console.log(history.history.val_loss)
+//   // console.log(history.history.val_acc)
+//   // console.log(history.history.loss)
+//   // console.log(history.history.acc)
+//   console.log('end run!')
+//   console.log(typeof history.history.loss)
+//   console.log(typeof history.history.acc)
+//   console.log([history.history.loss, history.history.acc])
+//   return [history.history.loss, history.history.acc]
+// }
 
-  const model = getModel();
-  let history = await train(model, data);
-  // console.log(history.history.val_loss)
-  // console.log(history.history.val_acc)
-  // console.log(history.history.loss)
-  // console.log(history.history.acc)
-  console.log('end run!')
-  return [history.history.loss, history.history.acc]
+function run() {
+  let loss = [
+    0.9090158939361572,
+    0.27688756585121155,
+    0.19303062558174133,
+    0.15251964330673218,
+    0.12046714872121811,
+    0.10329486429691315,
+    0.08631346374750137,
+    0.07405736297369003,
+    0.06184576824307442,
+    0.05369441211223602]
+  let acc = [
+    0.7398181557655334,
+    0.9138181805610657,
+    0.9407272338867188,
+    0.95127272605896,
+    0.9638181328773499,
+    0.9701818227767944,
+    0.9734545350074768,
+    0.9778181314468384,
+    0.9799999594688416,
+    0.9834545254707336]
+
+  return [loss, acc]
+
 }
 
 export {
