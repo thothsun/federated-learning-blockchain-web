@@ -316,13 +316,13 @@
         this.activestep = step
       },
       startTrain() {
-        if (this.modelvalue === '') {
-          this.$message.error('Please select a model.');
+        if (this.datasetvalue === '') {
+          this.$message.error('Please select a dataset.');
           return
         }
 
-        if (this.datasetvalue === '') {
-          this.$message.error('Please select a dataset.');
+        if (this.modelvalue === '') {
+          this.$message.error('Please select a model.');
           return
         }
 
@@ -330,6 +330,8 @@
         this.btnMsg = 'Running'
         this.state = 'training...'
         this.isTraining = true
+        this.currentpercentage = 0
+        this.currentstatus = null
 
         let interval = setInterval(() => {
           this.currentpercentage += 1
