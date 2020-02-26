@@ -159,7 +159,8 @@
                v-loading="this.state==='synchronizing...'" element-loading-text="blockchain synchronizing...">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
           <Client v-for="(client,index) in clientList" :key="index" :id=index :state="state"
-                  :readonly="isTraining" :result="result" :reward="reward" :clientnum="clientNum"></Client>
+                  :readonly="isTraining" :result="result" :reward="reward" :clientnum="clientNum"
+                  :blockheight="blockheight"></Client>
         </div>
       </el-main>
 
@@ -363,8 +364,7 @@
           this.$notify({
             title: 'Message',
             message: 'Mine Finished!',
-            type: 'success',
-            duration: 6000
+            type: 'success'
           })
           this.btnMsg = 'Run'
           this.isTraining = false
@@ -372,13 +372,13 @@
           this.setprocess(4)
           setTimeout(() => {
             this.state = 'finish'
+            this.blockheight += 1
+            this.updatetime = this.getcurrenttime()
             this.$notify({
               title: 'Message',
               message: 'Synchronize Finished!',
               type: 'success'
             })
-            this.blockheight = 1024
-            this.updatetime = this.getcurrenttime()
           }, 5000)
         }, 10000)
       }

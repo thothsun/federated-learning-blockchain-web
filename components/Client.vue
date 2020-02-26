@@ -1,7 +1,8 @@
 <template>
   <el-card shadow="always" body-style="padding:20px"
            style="height: 280px;width: 250px;margin: 20px;display: inline-block"
-           v-loading="this.state==='mining...'" element-loading-text="mining...">
+           v-loading="this.state==='mining...'" element-loading-text="mining..."
+           element-loading-spinner="el-icon-loading">
 
     <div style="display: flex;justify-content:space-around;align-items: center;font-weight: 600">
       <i class="el-icon-monitor"></i>
@@ -39,7 +40,7 @@
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
       <span>block height</span>
-      {{blockheight}}
+      {{myblockheight}}
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
@@ -60,7 +61,8 @@
       readonly: false,
       result: null,
       reward: 0,
-      clientnum: 0
+      clientnum: 0,
+      blockheight: 0
     },
     data() {
       return {
@@ -71,9 +73,9 @@
         samples: 8000,
         loss: '--',
         accu: '--',
-        blockheight: 1023,
         winner: ' ',
         myreward: '--',
+        myblockheight: this.blockheight
       }
     },
     methods: {},
@@ -90,6 +92,9 @@
       })
     },
     watch: {
+      blockheight: function(val){
+        this.myblockheight = val
+      },
       power: function (val) {
         this.$store.commit('update', {
           id: this.id,
@@ -105,11 +110,11 @@
         if (val === 'training...') {
           this.winner = ' '
         }
-        if (val === 'finish') {
+        if (val === 'synchronizing...') {
           let winnerId = this.$store.getters.candidates
 
           if (this.id === winnerId) {
-            this.blockheight = 1024
+            this.myblockheight += 1
             this.winner = 'WINNER'
           }
           if (this.id === winnerId) {
@@ -117,9 +122,7 @@
           } else {
             this.myreward = (this.reward * 0.7 / this.clientnum * this.accu).toFixed(3)
           }
-          setTimeout(() => {
-            this.blockheight = 1024
-          }, 5000)
+
         }
 
       },
