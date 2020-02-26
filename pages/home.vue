@@ -135,8 +135,6 @@
 
       <el-divider></el-divider>
 
-
-      log:{{this.$store.state.powerList}}
     </el-aside>
 
     <el-container style="padding: 20px 50px">

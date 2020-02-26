@@ -15,7 +15,6 @@ export const mutations = {
     state.powerList.splice(state.powerList.findIndex((item) => item.id === data.id), 1)
   },
   update(state, data) {
-    console.log(data)
     Vue.set(state.powerList.find((item) => item.id === data.id), 'power', data.power)
   }
 }
