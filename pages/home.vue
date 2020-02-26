@@ -155,7 +155,8 @@
         </div>
         <el-divider></el-divider>
       </el-header>
-      <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #f7f8fb">
+      <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #f7f8fb"
+               v-loading="this.state==='synchronizing...'" element-loading-text="blockchain synchronizing...">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
           <Client v-for="(client,index) in clientList" :key="index" :id=index :state="state"
                   :readonly="isTraining" :result="result" :reward="reward" :clientnum="clientNum"></Client>
@@ -367,9 +368,15 @@
           })
           this.btnMsg = 'Run'
           this.isTraining = false
-          this.state = 'finish'
+          this.state = 'synchronizing...'
           this.setprocess(4)
           setTimeout(() => {
+            this.state = 'finish'
+            this.$notify({
+              title: 'Message',
+              message: 'Synchronize Finished!',
+              type: 'success'
+            })
             this.blockheight = 1024
             this.updatetime = this.getcurrenttime()
           }, 5000)
