@@ -341,9 +341,12 @@
             this.state = 'mining...'
             this.setprocess(3)
             this.result = run()
-            this.$message({
-              message: 'Train Finished!', type: 'success'
-            });
+
+            this.$notify({
+              title: 'Message',
+              message: 'Train Finished!',
+              type: 'success'
+            })
             this.startMining()
           }
         }, this.traintime * 1000 / 100)
@@ -352,9 +355,12 @@
 
       startMining() {
         setTimeout(() => {
-          this.$message({
-            message: 'Mine Finished!', type: 'success'
-          });
+          this.$notify({
+            title: 'Message',
+            message: 'Mine Finished!',
+            type: 'success',
+            duration: 6000
+          })
           this.btnMsg = 'Run'
           this.isTraining = false
           this.state = 'finish'
