@@ -88,7 +88,7 @@
 
       <el-divider></el-divider>
 
-      <span>Train Progress</span>
+      <h3>Train Progress</h3>
 
       <div style="text-align: center;margin-top: 10px">
         <el-progress :percentage="currentpercentage" :status="currentstatus"></el-progress>

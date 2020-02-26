@@ -102,6 +102,9 @@
         this.accu = (this.result[1][flag] + this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
       },
       state: function (val) {
+        if (val === 'training...') {
+          this.winner = ' '
+        }
         if (val === 'finish') {
           let winnerId = this.$store.getters.candidates
 
