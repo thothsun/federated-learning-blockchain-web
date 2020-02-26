@@ -11,7 +11,7 @@
           v-model="clientNum"
           controls-position="right"
           :min="1"
-          :max="10"
+          :max="20"
           size="mini"
           @change="setprocess(0)"
           :disabled="isTraining"
@@ -117,10 +117,11 @@
         <span>{{this.clientNum}}</span>
       </div>
 
-      <!--      <div class="menu">-->
-      <!--        <span>whole power</span>-->
-      <!--        <span>40</span>-->
-      <!--      </div>-->
+      <div class="menu">
+        <!--        todo 计算全网算力-->
+        <span>whole power</span>
+        <span>{{wholepower}}</span>
+      </div>
 
       <div class="menu">
         <span>update time</span>
@@ -134,6 +135,8 @@
 
       <el-divider></el-divider>
 
+
+      log:{{this.$store.state.powerList}}
     </el-aside>
 
     <el-container style="padding: 20px 50px">
@@ -152,7 +155,7 @@
       </el-header>
       <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #f7f8fb">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
-          <Client v-for="(client,index) in clients" :key="index" :id=index :state="state" :power=client.power
+          <Client v-for="(client,index) in clientList" :key="index" :id=index :state="state"
                   :readonly="isTraining" :result="result" :reward="reward" :clientnum="clientNum"></Client>
         </div>
       </el-main>
@@ -178,7 +181,7 @@
 
         //client
         clientNum: 5,
-        clients: [],
+        clientList: [],
 
         //model
         modeloptions: [{
@@ -261,6 +264,16 @@
         blockheight: 1023
       }
     },
+    computed: {
+      wholepower() {
+        let a = this.$store.state.powerList
+        let sum = 0
+        for (let i = 0; i < a.length; i++) {
+          sum += a[i].power
+        }
+        return sum
+      }
+    },
     created() {
       this.initClient()
 
@@ -299,7 +312,7 @@
       },
 
       initClient() {
-        this.clients = new Array(this.clientNum).fill({power: 4})
+        this.clientList = new Array(this.clientNum)
       },
       setprocess(step) {
         this.activestep = step

@@ -18,7 +18,7 @@
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
       <span>power</span>
-      <el-rate v-model="rate" :colors="colors" :disabled="readonly"></el-rate>
+      <el-rate v-model="power" :colors="colors" :disabled="readonly"></el-rate>
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
@@ -57,7 +57,6 @@
     props: {
       id: 0,
       state: '',
-      power: 0,
       readonly: false,
       result: null,
       reward: 0,
@@ -65,7 +64,7 @@
     },
     data() {
       return {
-        rate: this.power,
+        power: 4,
         colors: {2: '#32CD32', 4: '#32CD32', 5: '#32CD32'},
         percentage: 0,
         status: null,
@@ -79,20 +78,38 @@
       }
     },
     methods: {},
+    created: function () {
+      this.$store.commit('add', {
+        id: this.id,
+        power: this.power
+      });
+    },
+    destroyed: function () {
+      this.$store.commit('remove', {
+        id: this.id,
+        power: this.power
+      })
+    },
     watch: {
+      power: function (val) {
+        this.$store.commit('update', {
+          id: this.id,
+          power: this.power
+        })
+      },
       result: function () {
-        let flag = 4 + this.rate
+        let flag = 4 + this.power
         this.loss = (this.result[0][flag] - this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
         this.accu = (this.result[1][flag] + this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
       },
       state: function (val) {
         if (val === 'finish') {
-          if (this.rate === 5) {
+          if (this.power === 5) {
             this.blockheight = 1024
             this.winner = 'WINNER'
             this.isActive = true
           }
-          if (this.rate === 5) {
+          if (this.power === 5) {
             this.myreward = (this.reward * 0.7 / this.clientnum * this.accu + this.reward * 0.2).toFixed(3)
           } else {
             this.myreward = (this.reward * 0.7 / this.clientnum * this.accu).toFixed(3)
