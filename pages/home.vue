@@ -113,7 +113,7 @@
       </div>
 
       <div class="menu">
-        <span>node number</span>
+        <span>active clients number</span>
         <span>{{this.clientNum}}</span>
       </div>
 
@@ -129,7 +129,12 @@
       </div>
 
       <div class="menu">
-        <span>current reward</span>
+        <span>reward</span>
+        <span v-once>{{this.reward*0.2.toFixed(1)}}</span>
+      </div>
+
+      <div class="menu">
+        <span>next block reward</span>
         <span>{{this.reward*0.2.toFixed(1)}}</span>
       </div>
 
