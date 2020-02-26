@@ -23,9 +23,9 @@ const NUM_TRAIN_ELEMENTS = 55000;
 const NUM_TEST_ELEMENTS = NUM_DATASET_ELEMENTS - NUM_TRAIN_ELEMENTS;
 
 const MNIST_IMAGES_SPRITE_PATH =
-  '../mnist/mnist_images.png';
+  '/mnist/mnist_images.png';
 const MNIST_LABELS_PATH =
-  '../mnist/mnist_labels_uint8';
+  '/mnist/mnist_labels_uint8';
 
 import * as tf from '@tensorflow/tfjs';
 

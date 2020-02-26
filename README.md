@@ -1,6 +1,6 @@
-# flb-web
+Federated Learning Blockchain Web Demo
 
-> flb-demo-project
+http://demo.blockchain-neu.com
 
 ## Build Setup
 

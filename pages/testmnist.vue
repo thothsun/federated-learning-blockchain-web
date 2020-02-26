@@ -3,8 +3,8 @@
 </template>
 
 <script>
-  import '../static/js/data.js'
-  import {run} from '../static/js/script.js'
+  import '~/assets/js/data.js'
+  import {run} from '~/assets/js/scriptplus.js'
 
   export default {
     name: "testmnist",

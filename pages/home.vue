@@ -74,18 +74,15 @@
       </div>
 
       <div class="menu">
-        <span>train time</span>
-        <span style="color: gray;">
-          <el-input-number v-model="traintime"
-                           :min="10"
-                           :max="60"
-                           :step="5"
-                           size="mini"
-                           @focus="setprocess(1)"
-                           :disabled="isTraining">
-          </el-input-number>
-        (s)
-        </span>
+        <span>train time (s)</span>
+        <el-input-number v-model="traintime"
+                         :min="10"
+                         :max="60"
+                         :step="5"
+                         size="mini"
+                         @focus="setprocess(1)"
+                         :disabled="isTraining">
+        </el-input-number>
       </div>
 
 
@@ -146,13 +143,14 @@
           <el-steps :active=activestep finish-status="success" align-center>
             <el-step title="Configure Clients" description=""></el-step>
             <el-step title="Post a Task" description=""></el-step>
-            <el-step title="Running" description=""></el-step>
-            <el-step title="Finish" description="" icon="el-icon-finished"></el-step>
+            <el-step title="Training" description=""></el-step>
+            <el-step title="Mining" description=""></el-step>
+            <el-step title="Finished" description="" icon="el-icon-finished"></el-step>
           </el-steps>
         </div>
         <el-divider></el-divider>
       </el-header>
-      <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #F5F5F5">
+      <el-main style="border: lightgray dashed 1px;border-radius: 10px;background-color: #f7f8fb">
         <div style="display: flex;justify-content: flex-start;align-content: flex-start;flex-wrap: wrap">
           <Client v-for="(client,index) in clients" :key="index" :id=index :state="state" :power=client.power
                   :readonly="isTraining" :result="result" :reward="reward" :clientnum="clientNum"></Client>
@@ -166,7 +164,7 @@
 
 <script>
   import Client from "../components/Client";
-  import {run} from '../static/js/script.js'
+  import {run} from '~/assets/js/script.js'
 
   export default {
     name: "home",
@@ -179,7 +177,7 @@
         activestep: 0,
 
         //client
-        clientNum: 3,
+        clientNum: 5,
         clients: [],
 
         //model
@@ -328,9 +326,10 @@
             clearInterval(interval)
             this.currentstatus = 'success'
             this.state = 'mining...'
+            this.setprocess(3)
             this.result = run()
             this.$message({
-              message: 'train finished!', type: 'success'
+              message: 'Train Finished!', type: 'success'
             });
             this.startMining()
           }
@@ -341,14 +340,16 @@
       startMining() {
         setTimeout(() => {
           this.$message({
-            message: 'mine finished!', type: 'success'
+            message: 'Mine Finished!', type: 'success'
           });
+          this.btnMsg = 'Run'
+          this.isTraining = false
           this.state = 'finish'
-          this.setprocess(3)
-          setTimeout(()=>{
+          this.setprocess(4)
+          setTimeout(() => {
             this.blockheight = 1024
             this.updatetime = this.getcurrenttime()
-          },5000)
+          }, 5000)
         }, 10000)
       }
     }

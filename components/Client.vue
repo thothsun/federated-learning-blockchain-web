@@ -1,6 +1,6 @@
 <template>
   <el-card shadow="always" body-style="padding:20px"
-           style="height: 300px;width: 250px;margin: 20px;display: inline-block"
+           style="height: 280px;width: 250px;margin: 20px;display: inline-block"
            v-loading="this.state==='mining...'" element-loading-text="mining...">
 
     <div style="display: flex;justify-content:space-around;align-items: center;font-weight: 600">
@@ -74,7 +74,8 @@
         accu: '--',
         blockheight: 1023,
         winner: ' ',
-        myreward: '--'
+        myreward: '--',
+        isActive: false
       }
     },
     methods: {},
@@ -89,6 +90,7 @@
           if (this.rate === 5) {
             this.blockheight = 1024
             this.winner = 'WINNER'
+            this.isActive = true
           }
           if (this.rate === 5) {
             this.myreward = (this.reward * 0.7 / this.clientnum * this.accu + this.reward * 0.2).toFixed(3)
@@ -107,5 +109,4 @@
 </script>
 
 <style scoped>
-
 </style>
