@@ -74,7 +74,6 @@
         blockheight: 1023,
         winner: ' ',
         myreward: '--',
-        isActive: false
       }
     },
     methods: {},
@@ -104,12 +103,13 @@
       },
       state: function (val) {
         if (val === 'finish') {
-          if (this.power === 5) {
+          let winnerId = this.$store.getters.candidates
+
+          if (this.id === winnerId) {
             this.blockheight = 1024
             this.winner = 'WINNER'
-            this.isActive = true
           }
-          if (this.power === 5) {
+          if (this.id === winnerId) {
             this.myreward = (this.reward * 0.7 / this.clientnum * this.accu + this.reward * 0.2).toFixed(3)
           } else {
             this.myreward = (this.reward * 0.7 / this.clientnum * this.accu).toFixed(3)

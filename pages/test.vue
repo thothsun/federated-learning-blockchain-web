@@ -6,24 +6,11 @@
   export default {
     name: "test",
     created() {
-      let data = {
-        id:4
-      }
-      let a = new Array(3)
-      a[0] = {
-        id: 0,
-        power: 8
-      }
-      a[1] = {
-        id: 1,
-        power: 9
-      }
-      a[2] = {
-        id: 4,
-        power: 1
-      }
+      var attr = [{n1: 1, n2: 3}, {n1: 99, n2: 103}, {n1: 45, n2: 46}];
+
+      let a = attr.slice(0, 2)
+      console.log(attr)
       console.log(a)
-      console.log(a.findIndex((v) => v.id === 4))
     }
   }
 </script>

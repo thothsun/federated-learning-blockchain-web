@@ -118,7 +118,6 @@
       </div>
 
       <div class="menu">
-        <!--        todo 计算全网算力-->
         <span>whole power</span>
         <span>{{wholepower}}</span>
       </div>
