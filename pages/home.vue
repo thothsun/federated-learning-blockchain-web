@@ -118,8 +118,8 @@
       </div>
 
       <div class="menu">
-        <span>whole power</span>
-        <span>{{wholepower}}</span>
+        <span>total power</span>
+        <span>{{totalpower}}</span>
       </div>
 
       <div class="menu">
@@ -128,7 +128,7 @@
       </div>
 
       <div class="menu">
-        <span>reward</span>
+        <span>current block reward</span>
         <span v-once>{{this.reward*0.2.toFixed(1)}}</span>
       </div>
 
@@ -269,7 +269,7 @@
       }
     },
     computed: {
-      wholepower() {
+      totalpower() {
         let a = this.$store.state.powerList
         let sum = 0
         for (let i = 0; i < a.length; i++) {
