@@ -92,7 +92,7 @@
       })
     },
     watch: {
-      blockheight: function(val){
+      blockheight: function (val) {
         this.myblockheight = val
       },
       power: function (val) {
@@ -102,7 +102,7 @@
         })
       },
       result: function () {
-        let flag = 4 + this.power
+        let flag = this.power * 2 - 1
         this.loss = (this.result[0][flag] - this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
         this.accu = (this.result[1][flag] + this.samples / 1000 * 0.001 + Math.random() * 0.001).toFixed(4)
       },
