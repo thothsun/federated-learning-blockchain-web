@@ -3,7 +3,7 @@
     <div>
       <logo/>
       <h2 class="title">
-        Federated Learning Blockchain
+        FedCoin: Federated Learning Blockchain
       </h2>
       <div class="links">
         <nuxt-link to='/home' class="button--green">
