@@ -39,5 +39,10 @@ export const mutations = {
   },
   update(state, data) {
     Vue.set(state.powerList.find((item) => item.id === data.id), 'power', data.power)
+  },
+
+  //国际化
+  setLang(state, lang) {
+    state.lang = lang
   }
 }

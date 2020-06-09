@@ -5,9 +5,10 @@
       <h2 class="title">
         FedCoin: Federated Learning Blockchain
       </h2>
+
       <div class="links">
         <nuxt-link to='/home' class="button--green">
-          Enter Demo
+          {{ this.$t('enter') }} Demo
         </nuxt-link>
       </div>
     </div>

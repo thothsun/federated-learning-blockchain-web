@@ -1,3 +1,4 @@
+import I18N from './config/i18n'
 
 export default {
   mode: 'spa',
@@ -41,6 +42,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    ['nuxt-i18n', I18N],
   ],
   /*
   ** Build configuration

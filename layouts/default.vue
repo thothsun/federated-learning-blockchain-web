@@ -6,6 +6,7 @@
                 src="/github.png"
                 alt="Fork me on GitHub"></el-image>
     </a>
+    <lang-switcher style="position: fixed;bottom: 20px;right: 20px;z-index: 9" />
   </div>
 </template>
 
@@ -35,3 +36,9 @@ body {
 
 
 </style>
+<script>
+  import LangSwitcher from "../components/lang-switcher";
+  export default {
+    components: {LangSwitcher}
+  }
+</script>

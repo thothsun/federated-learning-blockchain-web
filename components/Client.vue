@@ -7,44 +7,44 @@
     <div style="display: flex;justify-content:space-around;align-items: center;font-weight: 600">
       <i class="el-icon-monitor"></i>
 
-      <span>client {{id+1}}</span>
+      <span>{{this.$t('client')}} {{id+1}}</span>
 
       <span style="color: orange">{{winner}}</span>
     </div>
 
     <div style="margin-top: 20px;display: flex;justify-content: space-between;align-items: center">
-      <span>state</span>
+      <span>{{this.$t('state')}}</span>
       {{state}}
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>power</span>
+      <span>{{this.$t('power')}}</span>
       <el-rate v-model="power" :colors="colors" :disabled="readonly"></el-rate>
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>samples</span>
+      <span>{{this.$t('samples')}}</span>
       <el-input-number v-model="samples" :min="1000" :step="1000" :max="10000" size="mini"
                        :disabled="readonly"></el-input-number>
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>accuracy</span>
+      <span>{{this.$t('accuracy')}}</span>
       {{accu}}
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>loss</span>
+      <span>{{this.$t('loss')}}</span>
       {{loss}}
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>block height</span>
+      <span>{{this.$t('block_height1')}}</span>
       {{myblockheight}}
     </div>
 
     <div style="margin-top: 10px;display: flex;justify-content: space-between;align-items: center">
-      <span>reward</span>
+      <span>{{this.$t('reward')}}</span>
       {{myreward}}
     </div>
 

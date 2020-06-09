@@ -3,10 +3,10 @@
 
 
     <el-aside style="padding: 20px 30px 0 0">
-      <h3>Configure Clients</h3>
+      <h3>{{this.$t('config')}}</h3>
 
       <div class="menu">
-        client number
+        {{this.$t('client_num')}}
         <el-input-number
           v-model="clientNum"
           controls-position="right"
@@ -19,9 +19,9 @@
       </div>
 
       <div class="menu">
-        dataset
+        {{this.$t('dataset')}}
         <el-select v-model="datasetvalue"
-                   placeholder="select a dataset"
+                   :placeholder="this.$t('select_a_dataset')"
                    size="mini"
                    @change="setprocess(0)"
                    :disabled="isTraining">
@@ -37,12 +37,12 @@
 
       <el-divider></el-divider>
 
-      <h3>Post a Task</h3>
+      <h3>{{this.$t('post_task')}}</h3>
 
       <div class="menu">
-        model
+        {{this.$t('model')}}
         <el-select v-model="modelvalue"
-                   placeholder="select a model"
+                   :placeholder="this.$t('select_a_model')"
                    size="mini"
                    @change="setprocess(1)"
                    :disabled="isTraining">
@@ -62,7 +62,7 @@
       </div>
 
       <div class="menu">
-        reward
+        {{this.$t('reward')}}
         <el-input-number v-model="reward"
                          :min="100"
                          :max="10000"
@@ -74,7 +74,7 @@
       </div>
 
       <div class="menu">
-        <span>train time (s)</span>
+        <span>{{this.$t('train_time')}}</span>
         <el-input-number v-model="traintime"
                          :min="10"
                          :max="60"
@@ -88,7 +88,7 @@
 
       <el-divider></el-divider>
 
-      <h3>Train Progress</h3>
+      <h3>{{this.$t('train_process')}}</h3>
 
       <div style="text-align: center;margin-top: 10px">
         <el-progress :percentage="currentpercentage" :status="currentstatus"></el-progress>
@@ -105,35 +105,35 @@
 
       <el-divider></el-divider>
 
-      <h3>Blockchain Info</h3>
+      <h3>{{this.$t('blockchain_info')}}</h3>
 
       <div class="menu">
-        <span>block height</span>
+        <span>{{this.$t('block_height')}}</span>
         <span>{{this.blockheight}}</span>
       </div>
 
       <div class="menu">
-        <span>active clients number</span>
+        <span>{{this.$t('active_clients_number')}}</span>
         <span>{{this.clientNum}}</span>
       </div>
 
       <div class="menu">
-        <span>total power</span>
+        <span>{{this.$t('total_power')}}</span>
         <span>{{totalpower}}</span>
       </div>
 
       <div class="menu">
-        <span>update time</span>
+        <span>{{this.$t('update_time')}}</span>
         <span>{{updatetime}}</span>
       </div>
 
       <div class="menu">
-        <span>current block reward</span>
+        <span>{{this.$t('current_block_reward')}}</span>
         <span v-once>{{this.reward*0.2.toFixed(1)}}</span>
       </div>
 
       <div class="menu">
-        <span>next block reward</span>
+        <span>{{this.$t('next_block_reward')}}</span>
         <span>{{this.reward*0.2.toFixed(1)}}</span>
       </div>
 
@@ -143,14 +143,14 @@
 
     <el-container style="padding: 20px 50px">
       <el-header height="130px">
-        <h3>Process</h3>
+        <h3>{{this.$t('process')}}</h3>
         <div>
           <el-steps :active=activestep finish-status="success" align-center>
-            <el-step title="Configure Clients" description=""></el-step>
-            <el-step title="Post a Task" description=""></el-step>
-            <el-step title="Training" description=""></el-step>
-            <el-step title="Mining" description=""></el-step>
-            <el-step title="Finished" description="" icon="el-icon-finished"></el-step>
+            <el-step :title="this.$t('pro1')" description=""></el-step>
+            <el-step :title="this.$t('pro2')" description=""></el-step>
+            <el-step :title="this.$t('pro3')" description=""></el-step>
+            <el-step :title="this.$t('pro4')" description=""></el-step>
+            <el-step :title="this.$t('pro5')" description="" icon="el-icon-finished"></el-step>
           </el-steps>
         </div>
         <el-divider></el-divider>
