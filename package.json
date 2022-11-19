@@ -15,7 +15,7 @@
     "@tensorflow/tfjs-vis": "^1.4.0",
     "cookieparser": "^0.1.0",
     "element-ui": "^2.4.11",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "nuxt-i18n": "^6.12.2"
   },
   "devDependencies": {}
